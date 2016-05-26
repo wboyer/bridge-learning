@@ -87,7 +87,7 @@ var LearningModule =
 	    var bridgeUrl = "http://yalemedicine.bridgeapp.com";
 
 	    var courses = this.props.courses.map(function (course) {
-	      return _react2.default.createElement(LearningCourse, { key: course.id, course: course });
+	      return _react2.default.createElement(LearningCourse, { key: course.id, bridgeUrl: bridgeUrl, course: course });
 	    });
 
 	    var courseListing;

@@ -21,7 +21,7 @@ module.exports = React.createClass({
     var bridgeUrl = "http://yalemedicine.bridgeapp.com";
 
     var courses = this.props.courses.map(function(course) {
-      return <LearningCourse key={course.id} course={course} />;
+      return <LearningCourse key={course.id} bridgeUrl={bridgeUrl} course={course} />;
     });
 
     var courseListing;
