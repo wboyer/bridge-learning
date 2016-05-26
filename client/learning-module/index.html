@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test Page</title>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+
+	<script src="bundle.js"></script>
+
+	<style>
+		body { font-family: sans-serif }
+
+		h1, h2, h3 { text-align: center }
+
+		.module { border: 1px solid grey; width: 400px; padding: 10px }
+
+		.learning-course-listing { border: 1px solid lightgrey; padding: 10px }
+	</style>
+</head>
+
+<body>
+	<div id="learning" class="module"></div>
+
+	<script>
+		var courses = [
+			{
+				"id": "3",
+				"is_enrolled": true,
+				"progress": 0,
+				"program_title": "Boyer Test Program",
+				"index_of_program": 2,
+				"program_course_count": 2,
+				"completed_at": null,
+				"required": true,
+				"score": 0,
+				"state": "active",
+				"title": "Bridge 001: What is Bridge?"
+			},
+			{
+				"id": "2",
+				"is_enrolled": true,
+				"progress": 1,
+				"program_title": null,
+				"index_of_program": 0,
+				"program_course_count": 0,
+				"completed_at": "2016-05-16T10:41:34.579-06:00",
+				"required": true,
+				"score": 100,
+				"state": "complete",
+				"title": "Test Course"
+			}
+		];
+
+	</script>
+
+	<script>
+		ReactDOM.render(React.createElement('div', null, [
+							React.createElement('h1', null, 'Your Learning Progress'),
+							React.createElement(LearningModule, {courses: courses})]), document.getElementById('learning'));
+	</script>
+
+</body>
+
+</html>

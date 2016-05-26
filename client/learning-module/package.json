@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "tedious": "latest",
+    "webpack": "latest",
+	"babel-core": "latest",
+	"babel-preset-es2015": "latest",
+	"babel-loader": "latest",
+	"babel-plugin-transform-react-jsx": "latest"
+  }
+}
