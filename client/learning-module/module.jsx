@@ -1,16 +1,46 @@
 import React from 'react';
 import numeral from 'numeral';
 
+var LearningProgramPosition = React.createClass({
+  render: function() {
+    var data = this.props.course;
+    var program = data.program_title;
+
+    if (!program)
+      return null;
+    else {
+      var courses_left = data.program_course_count - data.index_of_program;
+
+      var punct = '';
+
+      if (courses_left == 0) {
+        courses_left = 'Last course';
+        punct = '!';
+      }
+      else
+        courses_left = courses_left + ' courses left';
+
+      return (
+        <div className="learning-program-position">
+          ({courses_left} in <a href={this.props.bridgeUrl + "/learner/courses/" + data.id + "/launch"}>{program}</a>{punct})
+        </div>
+      );
+    }
+  }
+});
+
 var LearningCourse = React.createClass({
   render: function() {
     var course = this.props.course;
+    var bridgeUrl = this.props.bridgeUrl;
 
     if (course.state == 'complete')
       return null;
     else
       return (
         <div className="learning-course">
-          <a href={this.props.bridgeUrl + "/learner/courses/" + course.id + "/launch"}>{course.title}</a> - {numeral(course.progress).format('0%')}
+          <a href={bridgeUrl + "/learner/courses/" + course.id + "/launch"}>{course.title}</a> - {numeral(course.progress).format('0%')}
+          <LearningProgramPosition bridgeUrl={bridgeUrl} course={course} />
         </div>
       );
   }

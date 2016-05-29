@@ -64,20 +64,55 @@ var LearningModule =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var LearningProgramPosition = _react2.default.createClass({
+	  render: function render() {
+	    var data = this.props.course;
+	    var program = data.program_title;
+
+	    if (!program) return null;else {
+	      var courses_left = data.program_course_count - data.index_of_program;
+
+	      var punct = '';
+
+	      if (courses_left == 0) {
+	        courses_left = 'Last course';
+	        punct = '!';
+	      } else courses_left = courses_left + ' courses left';
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'learning-program-position' },
+	        '(',
+	        courses_left,
+	        ' in ',
+	        _react2.default.createElement(
+	          'a',
+	          { href: this.props.bridgeUrl + "/learner/courses/" + data.id + "/launch" },
+	          program
+	        ),
+	        punct,
+	        ')'
+	      );
+	    }
+	  }
+	});
+
 	var LearningCourse = _react2.default.createClass({
 	  render: function render() {
 	    var course = this.props.course;
+	    var bridgeUrl = this.props.bridgeUrl;
 
 	    if (course.state == 'complete') return null;else return _react2.default.createElement(
 	      'div',
 	      { className: 'learning-course' },
 	      _react2.default.createElement(
 	        'a',
-	        { href: this.props.bridgeUrl + "/learner/courses/" + course.id + "/launch" },
+	        { href: bridgeUrl + "/learner/courses/" + course.id + "/launch" },
 	        course.title
 	      ),
 	      ' - ',
-	      (0, _numeral2.default)(course.progress).format('0%')
+	      (0, _numeral2.default)(course.progress).format('0%'),
+	      _react2.default.createElement(LearningProgramPosition, { bridgeUrl: bridgeUrl, course: course })
 	    );
 	  }
 	});
