@@ -36,13 +36,16 @@ var LearningCourse = React.createClass({
 
     if (course.state == 'complete')
       return null;
-    else
+    else {
+      var progress = course.progress == 0 ? ' not started' : numeral(course.progress).format('0%');
+
       return (
         <div className="learning-course">
-          <a href={bridgeUrl + "/learner/courses/" + course.id + "/launch"}>{course.title}</a> - {numeral(course.progress).format('0%')}
-          <LearningProgramPosition bridgeUrl={bridgeUrl} course={course} />
+          <a href={bridgeUrl + "/learner/courses/" + course.id + "/launch"}>{course.title}</a> - {progress}
+          <LearningProgramPosition bridgeUrl={bridgeUrl} course={course}/>
         </div>
       );
+    }
   }
 });
 
