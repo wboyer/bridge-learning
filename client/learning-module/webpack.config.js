@@ -1,6 +1,6 @@
 module.exports = {
 	entry: './entry.js',
-    output: {
+	output: {
 		filename: 'bundle.js',
 		libraryTarget: "var",
 		library: "LearningModule"
