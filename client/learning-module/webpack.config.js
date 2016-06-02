@@ -13,7 +13,6 @@ module.exports = {
 		}]
 	},
 	externals: {
-		react: "React",
-		numeral: "numeral"
+		react: "React"
 	}
 }

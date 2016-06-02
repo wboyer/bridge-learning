@@ -1,31 +1,31 @@
 import React from 'react';
-import numeral from 'numeral';
 
 var LearningProgramPosition = React.createClass({
   render: function() {
     var data = this.props.course;
     var program = data.program_title;
 
-    if (!program)
-      return null;
-    else {
-      var courses_left = data.program_course_count - data.index_of_program;
+    var progress = '';
+    var separator = '';
+    var courses_left = '';
 
-      var punct = '';
+    if (data.progress)
+      progress = 'Started';
 
-      if (courses_left == 0) {
-        courses_left = 'Last course';
-        punct = '!';
-      }
-      else
-        courses_left = courses_left + ' courses left';
-
-      return (
-        <div className="learning-program-position">
-          ({courses_left} in <a href={this.props.bridgeUrl + "/learner/courses/" + data.id + "/launch"}>{program}</a>{punct})
-        </div>
-      );
+    if (program) {
+      courses_left = data.program_course_count - data.index_of_program + 1;
+      courses_left = courses_left + ' course' + (courses_left > 1 ? 's' : '') + ' left';
     }
+
+    if (progress && courses_left)
+      separator = '; ';
+    else
+      if (!progress && !courses_left)
+        progress = 'Not started';
+
+    return (
+      <span className="learning-program-position">{progress}{separator}{courses_left}.</span>
+    );
   }
 });
 
@@ -34,15 +34,12 @@ var LearningCourse = React.createClass({
     var course = this.props.course;
     var bridgeUrl = this.props.bridgeUrl;
 
-    if (course.state == 'complete')
+    if ((course.state == 'complete') && (!course.program_title || ( course.index_of_program == course.program_course_count)))
       return null;
     else {
-      var progress = course.progress == 0 ? ' not started' : numeral(course.progress).format('0%');
-
       return (
         <div className="learning-course">
-          <a href={bridgeUrl + "/learner/courses/" + course.id + "/launch"}>{course.title}</a> - {progress}
-          <LearningProgramPosition bridgeUrl={bridgeUrl} course={course}/>
+          <a href={bridgeUrl + "/learner/courses/" + course.id + "/launch"}>{course.program_title || course.title}</a>: <LearningProgramPosition bridgeUrl={bridgeUrl} course={course}/>
         </div>
       );
     }
@@ -60,7 +57,7 @@ module.exports = React.createClass({
     var courseListing;
 
     if (courses.reduce(function(course) { return course ? 1 : 0 }))
-      courseListing = <div className="learning-course-listing"><h4>Courses left to complete:</h4><div>{courses}</div></div>;
+      courseListing = <div className="learning-course-listing"><h4>Programs left to complete:</h4><div>{courses}</div></div>;
 
     return (
       <div className="learning-module">

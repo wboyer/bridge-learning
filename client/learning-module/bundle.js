@@ -58,10 +58,6 @@ var LearningModule =
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _numeral = __webpack_require__(3);
-
-	var _numeral2 = _interopRequireDefault(_numeral);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var LearningProgramPosition = _react2.default.createClass({
@@ -69,31 +65,27 @@ var LearningModule =
 	    var data = this.props.course;
 	    var program = data.program_title;
 
-	    if (!program) return null;else {
-	      var courses_left = data.program_course_count - data.index_of_program;
+	    var progress = '';
+	    var separator = '';
+	    var courses_left = '';
 
-	      var punct = '';
+	    if (data.progress) progress = 'Started';
 
-	      if (courses_left == 0) {
-	        courses_left = 'Last course';
-	        punct = '!';
-	      } else courses_left = courses_left + ' courses left';
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'learning-program-position' },
-	        '(',
-	        courses_left,
-	        ' in ',
-	        _react2.default.createElement(
-	          'a',
-	          { href: this.props.bridgeUrl + "/learner/courses/" + data.id + "/launch" },
-	          program
-	        ),
-	        punct,
-	        ')'
-	      );
+	    if (program) {
+	      courses_left = data.program_course_count - data.index_of_program + 1;
+	      courses_left = courses_left + ' course' + (courses_left > 1 ? 's' : '') + ' left';
 	    }
+
+	    if (progress && courses_left) separator = '; ';else if (!progress && !courses_left) progress = 'Not started';
+
+	    return _react2.default.createElement(
+	      'span',
+	      { className: 'learning-program-position' },
+	      progress,
+	      separator,
+	      courses_left,
+	      '.'
+	    );
 	  }
 	});
 
@@ -102,18 +94,19 @@ var LearningModule =
 	    var course = this.props.course;
 	    var bridgeUrl = this.props.bridgeUrl;
 
-	    if (course.state == 'complete') return null;else return _react2.default.createElement(
-	      'div',
-	      { className: 'learning-course' },
-	      _react2.default.createElement(
-	        'a',
-	        { href: bridgeUrl + "/learner/courses/" + course.id + "/launch" },
-	        course.title
-	      ),
-	      ' - ',
-	      (0, _numeral2.default)(course.progress).format('0%'),
-	      _react2.default.createElement(LearningProgramPosition, { bridgeUrl: bridgeUrl, course: course })
-	    );
+	    if (course.state == 'complete' && (!course.program_title || course.index_of_program == course.program_course_count)) return null;else {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'learning-course' },
+	        _react2.default.createElement(
+	          'a',
+	          { href: bridgeUrl + "/learner/courses/" + course.id + "/launch" },
+	          course.program_title || course.title
+	        ),
+	        ': ',
+	        _react2.default.createElement(LearningProgramPosition, { bridgeUrl: bridgeUrl, course: course })
+	      );
+	    }
 	  }
 	});
 
@@ -135,7 +128,7 @@ var LearningModule =
 	      _react2.default.createElement(
 	        'h4',
 	        null,
-	        'Courses left to complete:'
+	        'Programs left to complete:'
 	      ),
 	      _react2.default.createElement(
 	        'div',
@@ -172,12 +165,6 @@ var LearningModule =
 /***/ function(module, exports) {
 
 	module.exports = React;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports) {
-
-	module.exports = numeral;
 
 /***/ }
 /******/ ]);
