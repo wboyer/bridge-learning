@@ -146,14 +146,9 @@ var LearningModule =
 	      { className: 'learning-module' },
 	      courseListing,
 	      _react2.default.createElement(
-	        'h3',
-	        null,
-	        'Go to ',
-	        _react2.default.createElement(
-	          'a',
-	          { href: bridgeUrl },
-	          'Bridge'
-	        )
+	        'a',
+	        { className: 'btn btn-blue', href: '{bridgeUrl}' },
+	        'Go to Bridge'
 	      )
 	    );
 	  }
