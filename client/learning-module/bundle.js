@@ -124,14 +124,18 @@ var LearningModule =
 	      return course ? 1 : 0;
 	    })) courseListing = _react2.default.createElement(
 	      'div',
-	      { className: 'learning-course-listing' },
+	      { className: 'learning-course-listing summary' },
 	      _react2.default.createElement(
-	        'h4',
+	        'header',
 	        null,
-	        'Programs left to complete:'
+	        _react2.default.createElement(
+	          'h4',
+	          null,
+	          'Programs left to complete'
+	        )
 	      ),
 	      _react2.default.createElement(
-	        'div',
+	        'footer',
 	        null,
 	        courses
 	      )
@@ -140,11 +144,6 @@ var LearningModule =
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'learning-module' },
-	      _react2.default.createElement(
-	        'h3',
-	        null,
-	        'I\'m the Learning Module'
-	      ),
 	      courseListing,
 	      _react2.default.createElement(
 	        'h3',

@@ -57,12 +57,10 @@ module.exports = React.createClass({
     var courseListing;
 
     if (courses.reduce(function(course) { return course ? 1 : 0 }))
-      courseListing = <div className="learning-course-listing"><h4>Programs left to complete:</h4><div>{courses}</div></div>;
+      courseListing = <div className="learning-course-listing summary"><header><h4>Programs left to complete</h4></header><footer>{courses}</footer></div>;
 
     return (
       <div className="learning-module">
-        <h3>I'm the Learning Module</h3>
-
         {courseListing}
 
         <h3>Go to <a href={bridgeUrl}>Bridge</a></h3>
