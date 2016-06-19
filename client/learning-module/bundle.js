@@ -147,7 +147,7 @@ var LearningModule =
 	      courseListing,
 	      _react2.default.createElement(
 	        'a',
-	        { className: 'btn btn-blue', href: '{bridgeUrl}' },
+	        { className: 'btn btn-primary btn-large btn-block', href: bridgeUrl },
 	        'Go to Bridge'
 	      )
 	    );

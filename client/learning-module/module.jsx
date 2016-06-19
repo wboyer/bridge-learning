@@ -63,7 +63,7 @@ module.exports = React.createClass({
       <div className="learning-module">
         {courseListing}
 
-        <a className="btn btn-blue" href="{bridgeUrl}">
+        <a className="btn btn-primary btn-large btn-block" href={bridgeUrl}>
           Go to Bridge
         </a>
       </div>
