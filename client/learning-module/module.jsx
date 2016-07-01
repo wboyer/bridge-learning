@@ -54,14 +54,12 @@ module.exports = React.createClass({
       return <LearningCourse key={course.id} bridgeUrl={bridgeUrl} course={course} />;
     });
 
-    var courseListing;
-
-    if (courses.reduce(function(course) { return course ? 1 : 0 }))
-      courseListing = <div className="learning-course-listing summary"><header><h4>Programs left to complete</h4></header><footer>{courses}</footer></div>;
+    if (courses.length == 0)
+      courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
 
     return (
       <div className="learning-module">
-        {courseListing}
+        <div className="learning-course-listing summary"><header><h4>Programs left to complete</h4></header><footer>{courses}</footer></div>
 
         <a className="btn btn-primary btn-large btn-block" href={bridgeUrl}>
           Go to Bridge

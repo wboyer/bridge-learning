@@ -118,33 +118,29 @@ var LearningModule =
 	      return _react2.default.createElement(LearningCourse, { key: course.id, bridgeUrl: bridgeUrl, course: course });
 	    });
 
-	    var courseListing;
-
-	    if (courses.reduce(function (course) {
-	      return course ? 1 : 0;
-	    })) courseListing = _react2.default.createElement(
-	      'div',
-	      { className: 'learning-course-listing summary' },
-	      _react2.default.createElement(
-	        'header',
-	        null,
-	        _react2.default.createElement(
-	          'h4',
-	          null,
-	          'Programs left to complete'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'footer',
-	        null,
-	        courses
-	      )
-	    );
+	    if (courses.length == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
 
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'learning-module' },
-	      courseListing,
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'learning-course-listing summary' },
+	        _react2.default.createElement(
+	          'header',
+	          null,
+	          _react2.default.createElement(
+	            'h4',
+	            null,
+	            'Programs left to complete'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'footer',
+	          null,
+	          courses
+	        )
+	      ),
 	      _react2.default.createElement(
 	        'a',
 	        { className: 'btn btn-primary btn-large btn-block', href: bridgeUrl },
