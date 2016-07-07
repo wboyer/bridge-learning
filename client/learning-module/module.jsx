@@ -47,23 +47,46 @@ var LearningCourse = React.createClass({
 });
 
 module.exports = React.createClass({
+  propTypes: {
+    coursesX: React.PropTypes.array.isRequired,
+    clickEvent: React.PropTypes.shape({
+      category: React.PropTypes.stringisRequired,
+      action: React.PropTypes.number.isRequired
+    }),
+  },
   render: function() {
     var bridgeUrl = "http://yalemedicine.bridgeapp.com";
 
-    var courses = this.props.courses.map(function(course) {
-      return <LearningCourse key={course.id} bridgeUrl={bridgeUrl} course={course} />;
-    });
+    var courses = this.props.courses;
+    var button;
 
-    if (courses.length == 0)
-      courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
+    if (!courses) {
+      courses = 'You aren’t enrolled in any programs at this time.';
+    }
+    else {
+      courses = courses.map(function(course) {
+        return <LearningCourse key={course.id} bridgeUrl={bridgeUrl} course={course}/>;
+      });
+
+      if (courses.length == 0)
+        courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
+
+      var onClick;
+
+      if (this.props.clickEvent)
+        onClick = function() {
+          ga('send', 'event', this.props.clickEvent.category, this.props.clickEvent.action);
+          return true;
+        };
+
+      button = <a className="btn btn-primary btn-large btn-block" href={bridgeUrl} onClick={onClick}>Go to Bridge</a>;
+    }
 
     return (
       <div className="learning-module">
         <div className="learning-course-listing summary"><header><h4>Programs left to complete</h4></header><footer>{courses}</footer></div>
 
-        <a className="btn btn-primary btn-large btn-block" href={bridgeUrl}>
-          Go to Bridge
-        </a>
+        {button}
       </div>
     );
   }

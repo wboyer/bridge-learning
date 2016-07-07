@@ -95,7 +95,7 @@
 <script>
 	ReactDOM.render(React.createElement('div', null, [
 		React.createElement('h1', null, 'Your Learning Progress'),
-		React.createElement(LearningModule, {courses: courses})]), document.getElementById('learning'));
+		React.createElement(LearningModule, {courses: courses, clickEvent: {category: 'cat', action: 'action'}})]), document.getElementById('learning'));
 </script>
 
 </body>

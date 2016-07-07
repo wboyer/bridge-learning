@@ -111,14 +111,41 @@ var LearningModule =
 	});
 
 	module.exports = _react2.default.createClass({
+	  propTypes: {
+	    coursesX: _react2.default.PropTypes.array.isRequired,
+	    clickEvent: _react2.default.PropTypes.shape({
+	      category: _react2.default.PropTypes.stringisRequired,
+	      action: _react2.default.PropTypes.number.isRequired
+	    })
+	  },
 	  render: function render() {
 	    var bridgeUrl = "http://yalemedicine.bridgeapp.com";
 
-	    var courses = this.props.courses.map(function (course) {
-	      return _react2.default.createElement(LearningCourse, { key: course.id, bridgeUrl: bridgeUrl, course: course });
-	    });
+	    var courses = this.props.courses;
+	    var button;
 
-	    if (courses.length == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
+	    if (!courses) {
+	      courses = 'You aren’t enrolled in any programs at this time.';
+	    } else {
+	      courses = courses.map(function (course) {
+	        return _react2.default.createElement(LearningCourse, { key: course.id, bridgeUrl: bridgeUrl, course: course });
+	      });
+
+	      if (courses.length == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
+
+	      var onClick;
+
+	      if (this.props.clickEvent) onClick = function onClick() {
+	        ga('send', 'event', this.props.clickEvent.category, this.props.clickEvent.action);
+	        return true;
+	      };
+
+	      button = _react2.default.createElement(
+	        'a',
+	        { className: 'btn btn-primary btn-large btn-block', href: bridgeUrl, onClick: onClick },
+	        'Go to Bridge'
+	      );
+	    }
 
 	    return _react2.default.createElement(
 	      'div',
@@ -141,11 +168,7 @@ var LearningModule =
 	          courses
 	        )
 	      ),
-	      _react2.default.createElement(
-	        'a',
-	        { className: 'btn btn-primary btn-large btn-block', href: bridgeUrl },
-	        'Go to Bridge'
-	      )
+	      button
 	    );
 	  }
 	});
