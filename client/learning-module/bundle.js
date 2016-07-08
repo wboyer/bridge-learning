@@ -141,7 +141,9 @@ var LearningModule =
 	          ga('send', 'event', clickEvent.category, clickEvent.action, null, {
 	            'transport': 'beacon',
 	            'hitCallback': function hitCallback() {
-	              document.location = bridgeUrl;
+	              window.setTimeout(function () {
+	                window.location = bridgeUrl;
+	              }, 500);
 	            }
 	          });
 	          return false;

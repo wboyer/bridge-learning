@@ -78,7 +78,7 @@ module.exports = React.createClass({
         onClick = function() {
           ga('send', 'event', clickEvent.category, clickEvent.action, null, {
             'transport': 'beacon',
-            'hitCallback': function(){ document.location = bridgeUrl; }
+            'hitCallback': function(){ window.setTimeout(function() { window.location = bridgeUrl; }, 500); }
           });
           return false;
         };
