@@ -135,15 +135,18 @@ var LearningModule =
 
 	      var onClick;
 
-	      if (this.props.clickEvent) onClick = function onClick() {
-	        ga('send', 'event', this.props.clickEvent.category, this.props.clickEvent.action, null, {
-	          'transport': 'beacon',
-	          'hitCallback': function hitCallback() {
-	            document.location = bridgeUrl;
-	          }
-	        });
-	        return false;
-	      };
+	      if (this.props.clickEvent) {
+	        var clickEvent = this.props.clickEvent;
+	        onClick = function onClick() {
+	          ga('send', 'event', clickEvent.category, clickEvent.action, null, {
+	            'transport': 'beacon',
+	            'hitCallback': function hitCallback() {
+	              document.location = bridgeUrl;
+	            }
+	          });
+	          return false;
+	        };
+	      }
 
 	      button = _react2.default.createElement(
 	        'a',
