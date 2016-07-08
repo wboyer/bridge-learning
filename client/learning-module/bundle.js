@@ -136,8 +136,13 @@ var LearningModule =
 	      var onClick;
 
 	      if (this.props.clickEvent) onClick = function onClick() {
-	        ga('send', 'event', this.props.clickEvent.category, this.props.clickEvent.action);
-	        return true;
+	        ga('send', 'event', this.props.clickEvent.category, this.props.clickEvent.action, null, {
+	          'transport': 'beacon',
+	          'hitCallback': function hitCallback() {
+	            document.location = bridgeUrl;
+	          }
+	        });
+	        return false;
 	      };
 
 	      button = _react2.default.createElement(

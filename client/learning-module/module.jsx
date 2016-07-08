@@ -75,8 +75,11 @@ module.exports = React.createClass({
 
       if (this.props.clickEvent)
         onClick = function() {
-          ga('send', 'event', this.props.clickEvent.category, this.props.clickEvent.action);
-          return true;
+          ga('send', 'event', this.props.clickEvent.category, this.props.clickEvent.action, null, {
+            'transport': 'beacon',
+            'hitCallback': function(){ document.location = bridgeUrl; }
+          });
+          return false;
         };
 
       button = <a className="btn btn-primary btn-large btn-block" href={bridgeUrl} onClick={onClick}>Go to Bridge</a>;
