@@ -100,7 +100,7 @@ var LearningModule =
 	        { className: 'learning-course' },
 	        _react2.default.createElement(
 	          'a',
-	          { href: bridgeUrl + "/learner/courses/" + course.id + "/launch" },
+	          { href: bridgeUrl + "/learner/courses/" + course.learnable_id + "/launch" },
 	          course.program_title || course.title
 	        ),
 	        ': ',

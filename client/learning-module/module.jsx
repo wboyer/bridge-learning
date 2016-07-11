@@ -39,7 +39,7 @@ var LearningCourse = React.createClass({
     else {
       return (
         <div className="learning-course">
-          <a href={bridgeUrl + "/learner/courses/" + course.id + "/launch"}>{course.program_title || course.title}</a>: <LearningProgramPosition bridgeUrl={bridgeUrl} course={course}/>
+          <a href={bridgeUrl + "/learner/courses/" + course.learnable_id + "/launch"}>{course.program_title || course.title}</a>: <LearningProgramPosition bridgeUrl={bridgeUrl} course={course}/>
         </div>
       );
     }
