@@ -131,21 +131,44 @@ var LearningModule =
 	        return _react2.default.createElement(LearningCourse, { key: course.id, bridgeUrl: bridgeUrl, course: course });
 	      });
 
-	      if (courses.length == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
+	      var reducer = function reducer(course) {
+	        return course ? 1 : 0;
+	      };
+
+	      if (courses.length == 0 || courses.reduce(reducer, 0) == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
 
 	      var onClick;
 
-	      if (this.props.clickEvent) {
-	        var clickEvent = this.props.clickEvent;
+	      var navigateCallback = function navigateCallback() {
+	        window.setTimeout(function () {
+	          window.location = bridgeUrl;
+	        }, 500);
+	      };
+
+	      var reportCallback = function reportCallback(clickEvents) {
+	        var clickEvent = clickEvents.pop();
+
+	        var trackerName = "";
+	        if (clickEvent.trackerName) trackerName = clickEvent.trackerName + '.';
+
+	        ga(trackerName + 'send', 'event', clickEvent.category, clickEvent.action, null, {
+	          'transport': 'beacon',
+	          'hitCallback': clickEvents.length ? function () {
+	            reportCallback(clickEvents);
+	          } : navigateCallback
+	        });
+	        return false;
+	      };
+
+	      var clickEvents = this.props.clickEvents;
+
+	      if (!clickEvents && this.props.clickEvent) clickEvents = [this.props.clickEvent];
+
+	      if (clickEvents) {
+	        clickEvents = clickEvents.reverse();
+
 	        onClick = function onClick() {
-	          ga('send', 'event', clickEvent.category, clickEvent.action, null, {
-	            'transport': 'beacon',
-	            'hitCallback': function hitCallback() {
-	              window.setTimeout(function () {
-	                window.location = bridgeUrl;
-	              }, 500);
-	            }
-	          });
+	          reportCallback(clickEvents);
 	          return false;
 	        };
 	      }
