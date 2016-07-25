@@ -85,6 +85,7 @@ module.exports = React.createClass({
 
       var reportCallback = function(clickEvents) {
         var clickEvent = clickEvents.pop();
+        var remainingClickEvents = clickEvents;
 
         var trackerName = "";
         if (clickEvent.trackerName)
@@ -92,7 +93,7 @@ module.exports = React.createClass({
 
         ga(trackerName + 'send', 'event', clickEvent.category, clickEvent.action, null, {
           'transport': 'beacon',
-          'hitCallback': function() { clickEvents.length ?  reportCallback(clickEvents) : navigateCallback() }
+          'hitCallback': function() { remainingClickEvents.length ?  reportCallback(remainingClickEvents) : navigateCallback() }
         });
 
         return false;

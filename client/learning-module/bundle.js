@@ -147,6 +147,7 @@ var LearningModule =
 
 	      var reportCallback = function reportCallback(clickEvents) {
 	        var clickEvent = clickEvents.pop();
+	        var remainingClickEvents = clickEvents;
 
 	        var trackerName = "";
 	        if (clickEvent.trackerName) trackerName = clickEvent.trackerName + '.';
@@ -154,7 +155,7 @@ var LearningModule =
 	        ga(trackerName + 'send', 'event', clickEvent.category, clickEvent.action, null, {
 	          'transport': 'beacon',
 	          'hitCallback': function hitCallback() {
-	            clickEvents.length ? reportCallback(clickEvents) : navigateCallback();
+	            remainingClickEvents.length ? reportCallback(remainingClickEvents) : navigateCallback();
 	          }
 	        });
 
