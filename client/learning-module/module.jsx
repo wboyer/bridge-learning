@@ -92,8 +92,9 @@ module.exports = React.createClass({
 
         ga(trackerName + 'send', 'event', clickEvent.category, clickEvent.action, null, {
           'transport': 'beacon',
-          'hitCallback': clickEvents.length ? function() { reportCallback(clickEvents) }: navigateCallback
+          'hitCallback': function() { clickEvents.length ?  reportCallback(clickEvents) : navigateCallback() }
         });
+
         return false;
       };
 
