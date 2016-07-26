@@ -94,12 +94,10 @@ module.exports = React.createClass({
         if (clickEvent.trackerName)
           trackerName = clickEvent.trackerName + '.';
 
-        ga(trackerName + 'send', 'event', clickEvent.category, clickEvent.action, null, {
+        ga(trackerName + 'send', 'event', clickEvent.category, clickEvent.action, {
           'transport': 'beacon',
           'hitCallback': hitCallback
         });
-
-        return false;
       }
 
       var clickEvents = this.props.clickEvents;

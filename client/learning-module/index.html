@@ -795,6 +795,12 @@
 </script>
 
 <script>
+	function ga(command, hitType, field1, field2, options) {
+		window.setTimeout(function() {
+			options.hitCallback();
+		}, 100);
+	}
+
 	var clickEvents = [{
 		trackerName: 'siteTracker',
 		category: 'cat',

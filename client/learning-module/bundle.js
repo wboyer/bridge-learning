@@ -149,12 +149,10 @@ var LearningModule =
 	          var trackerName = "";
 	          if (clickEvent.trackerName) trackerName = clickEvent.trackerName + '.';
 
-	          ga(trackerName + 'send', 'event', clickEvent.category, clickEvent.action, null, {
+	          ga(trackerName + 'send', 'event', clickEvent.category, clickEvent.action, {
 	            'transport': 'beacon',
 	            'hitCallback': hitCallback
 	          });
-
-	          return false;
 	        };
 
 	        courses = courses.map(function (course) {
