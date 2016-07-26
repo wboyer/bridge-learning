@@ -77,19 +77,19 @@ module.exports = React.createClass({
 
       var onClick;
 
-      var navigateCallback = function() {
+      function navigateCallback() {
         window.setTimeout(function() {
           window.location = bridgeUrl;
         }, 500);
-      };
+      }
 
-      var reportCallback = function(clickEvents) {
+      function reportCallback(clickEvents) {
         var clickEvent = clickEvents.pop();
         var remainingClickEvents = clickEvents;
 
-        var hitCallback = function() {
+        function hitCallback() {
           remainingClickEvents.length ? reportCallback(remainingClickEvents) : navigateCallback()
-        };
+        }
 
         var trackerName = "";
         if (clickEvent.trackerName)
@@ -101,7 +101,7 @@ module.exports = React.createClass({
         });
 
         return false;
-      };
+      }
 
       var clickEvents = this.props.clickEvents;
 

@@ -119,6 +119,8 @@ var LearningModule =
 	    })
 	  },
 	  render: function render() {
+	    var _this = this;
+
 	    var bridgeUrl = "http://yalemedicine.bridgeapp.com";
 
 	    var courses = this.props.courses;
@@ -127,61 +129,66 @@ var LearningModule =
 	    if (!courses) {
 	      courses = 'You aren’t enrolled in any programs at this time.';
 	    } else {
-	      courses = courses.map(function (course) {
-	        return _react2.default.createElement(LearningCourse, { key: course.id, bridgeUrl: bridgeUrl, course: course });
-	      });
-
-	      var reducer = function reducer(course) {
-	        return course ? 1 : 0;
-	      };
-
-	      if (courses.length == 0 || courses.reduce(reducer, 0) == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
-
+	      var reducer;
 	      var onClick;
+	      var clickEvents;
 
-	      var navigateCallback = function navigateCallback() {
-	        window.setTimeout(function () {
-	          window.location = bridgeUrl;
-	        }, 500);
-	      };
-
-	      var reportCallback = function reportCallback(clickEvents) {
-	        var clickEvent = clickEvents.pop();
-	        var remainingClickEvents = clickEvents;
-
-	        var hitCallback = function hitCallback() {
-	          remainingClickEvents.length ? reportCallback(remainingClickEvents) : navigateCallback();
+	      (function () {
+	        var navigateCallback = function navigateCallback() {
+	          window.setTimeout(function () {
+	            window.location = bridgeUrl;
+	          }, 500);
 	        };
 
-	        var trackerName = "";
-	        if (clickEvent.trackerName) trackerName = clickEvent.trackerName + '.';
+	        var reportCallback = function reportCallback(clickEvents) {
+	          var clickEvent = clickEvents.pop();
+	          var remainingClickEvents = clickEvents;
 
-	        ga(trackerName + 'send', 'event', clickEvent.category, clickEvent.action, null, {
-	          'transport': 'beacon',
-	          'hitCallback': hitCallback
-	        });
+	          function hitCallback() {
+	            remainingClickEvents.length ? reportCallback(remainingClickEvents) : navigateCallback();
+	          }
 
-	        return false;
-	      };
+	          var trackerName = "";
+	          if (clickEvent.trackerName) trackerName = clickEvent.trackerName + '.';
 
-	      var clickEvents = this.props.clickEvents;
+	          ga(trackerName + 'send', 'event', clickEvent.category, clickEvent.action, null, {
+	            'transport': 'beacon',
+	            'hitCallback': hitCallback
+	          });
 
-	      if (!clickEvents && this.props.clickEvent) clickEvents = [this.props.clickEvent];
-
-	      if (clickEvents) {
-	        clickEvents = clickEvents.reverse();
-
-	        onClick = function onClick() {
-	          reportCallback(clickEvents);
 	          return false;
 	        };
-	      }
 
-	      button = _react2.default.createElement(
-	        'a',
-	        { className: 'btn btn-primary btn-large btn-block', href: bridgeUrl, onClick: onClick },
-	        'Go to Bridge'
-	      );
+	        courses = courses.map(function (course) {
+	          return _react2.default.createElement(LearningCourse, { key: course.id, bridgeUrl: bridgeUrl, course: course });
+	        });
+
+	        reducer = function reducer(course) {
+	          return course ? 1 : 0;
+	        };
+
+	        if (courses.length == 0 || courses.reduce(reducer, 0) == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
+
+	        clickEvents = _this.props.clickEvents;
+
+
+	        if (!clickEvents && _this.props.clickEvent) clickEvents = [_this.props.clickEvent];
+
+	        if (clickEvents) {
+	          clickEvents = clickEvents.reverse();
+
+	          onClick = function onClick() {
+	            reportCallback(clickEvents);
+	            return false;
+	          };
+	        }
+
+	        button = _react2.default.createElement(
+	          'a',
+	          { className: 'btn btn-primary btn-large btn-block', href: bridgeUrl, onClick: onClick },
+	          'Go to Bridge'
+	        );
+	      })();
 	    }
 
 	    return _react2.default.createElement(
