@@ -34,15 +34,11 @@ var LearningCourse = React.createClass({
     var course = this.props.course;
     var bridgeUrl = this.props.bridgeUrl;
 
-    if ((course.state == 'complete') && (!course.program_title || ( course.index_of_program == course.program_course_count)))
-      return null;
-    else {
-      return (
-        <div className="learning-course">
-          <a href={bridgeUrl + "/learner/courses/" + course.learnable_id + "/launch"}>{course.program_title || course.title}</a>: <LearningProgramPosition bridgeUrl={bridgeUrl} course={course}/>
-        </div>
-      );
-    }
+    return (
+      <div className="learning-course">
+        <a href={bridgeUrl + "/learner/courses/" + course.learnable_id + "/launch"}>{course.program_title || course.title}</a>: <LearningProgramPosition bridgeUrl={bridgeUrl} course={course}/>
+      </div>
+    );
   }
 });
 
@@ -65,14 +61,17 @@ module.exports = React.createClass({
     }
     else {
       courses = courses.map(function(course) {
-        return <LearningCourse key={course.id} bridgeUrl={bridgeUrl} course={course}/>;
+          if ((course.state == 'complete') && (!course.program_title || (course.index_of_program == course.program_course_count)))
+            return null;
+          else
+            return <LearningCourse key={course.id} bridgeUrl={bridgeUrl} course={course}/>;
       });
 
-      var reducer = function (course) {
-        return course ? 1 : 0;
+      var reducer = function (prev, cur) {
+        return prev + (cur ? 1 : 0);
       };
 
-      if (courses.length == 0)
+      if ((courses.length == 0) || (courses.reduce(reducer, 0) == 0))
         courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
 
       var onClick;

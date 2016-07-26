@@ -94,19 +94,17 @@ var LearningModule =
 	    var course = this.props.course;
 	    var bridgeUrl = this.props.bridgeUrl;
 
-	    if (course.state == 'complete' && (!course.program_title || course.index_of_program == course.program_course_count)) return null;else {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'learning-course' },
-	        _react2.default.createElement(
-	          'a',
-	          { href: bridgeUrl + "/learner/courses/" + course.learnable_id + "/launch" },
-	          course.program_title || course.title
-	        ),
-	        ': ',
-	        _react2.default.createElement(LearningProgramPosition, { bridgeUrl: bridgeUrl, course: course })
-	      );
-	    }
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'learning-course' },
+	      _react2.default.createElement(
+	        'a',
+	        { href: bridgeUrl + "/learner/courses/" + course.learnable_id + "/launch" },
+	        course.program_title || course.title
+	      ),
+	      ': ',
+	      _react2.default.createElement(LearningProgramPosition, { bridgeUrl: bridgeUrl, course: course })
+	    );
 	  }
 	});
 
@@ -160,14 +158,14 @@ var LearningModule =
 	        };
 
 	        courses = courses.map(function (course) {
-	          return _react2.default.createElement(LearningCourse, { key: course.id, bridgeUrl: bridgeUrl, course: course });
+	          if (course.state == 'complete' && (!course.program_title || course.index_of_program == course.program_course_count)) return null;else return _react2.default.createElement(LearningCourse, { key: course.id, bridgeUrl: bridgeUrl, course: course });
 	        });
 
-	        reducer = function reducer(course) {
-	          return course ? 1 : 0;
+	        reducer = function reducer(prev, cur) {
+	          return prev + (cur ? 1 : 0);
 	        };
 
-	        if (courses.length == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
+	        if (courses.length == 0 || courses.reduce(reducer, 0) == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
 
 	        clickEvents = _this.props.clickEvents;
 
