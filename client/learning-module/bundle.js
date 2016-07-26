@@ -167,7 +167,7 @@ var LearningModule =
 	          return course ? 1 : 0;
 	        };
 
-	        if (courses.length == 0 || courses.reduce(reducer, 0) == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
+	        if (courses.length == 0) courses = 'Congratulations! You\'re all caught up. Click through to Bridge to review completed courses.';
 
 	        clickEvents = _this.props.clickEvents;
 
